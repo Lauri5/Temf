@@ -1,0 +1,171 @@
+﻿<Window x:Class="Temf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Temf"
+        mc:Ignorable="d"
+        Title="Temf" Height="750" MaxHeight="750" Width="917" MaxWidth="917" MinWidth="500" MinHeight="600" Icon="Immagini/Logo.ico" WindowStartupLocation="Manual" 
+        Loaded="mainWindowLoaded" Closing="Window_Closing" StateChanged="Window_StateChanged" IsVisibleChanged="Window_IsVisibleChanged" 
+        Foreground="{x:Null}" Background="#FF191919" ResizeMode="CanResize" SourceInitialized="Window_SourceInitialized" SizeChanged="Window_SizeChanged">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <CheckBox x:Name="CheckStartup" Margin="5,15,0,0" Grid.Column="0" Content="Run at Windows Startup" Background="#FFABABAB"
+                      BorderBrush="#FFBABABA" Foreground="#FFBABABA" Checked="CheckStartup_Checked" Unchecked="CheckStartup_Unchecked"/>
+
+            <ScrollViewer x:Name="Primo_Scroll" MinWidth="100" MaxWidth="250" Margin=" 0,15,0,0" PreviewMouseWheel="installedData_PreviewMouseWheel">
+                <ScrollViewer.Resources>
+                    <Style TargetType="{x:Type ScrollBar}">
+                        <Setter Property="Background" Value="#FF191919"/>
+                        <Setter Property="BorderBrush" Value="DimGray"/>
+                    </Style>
+                </ScrollViewer.Resources>
+                <DataGrid x:Name="installedData" RowHeaderWidth="0" BorderBrush="#FF303030" Width="Auto"
+                      Background="#FF303030" Foreground="#FFBFBFBF" FontFamily="Arial" HorizontalGridLinesBrush="DimGray" 
+                      VerticalGridLinesBrush="DimGray" SelectionMode="Single" SelectionUnit="FullRow"
+                      AlternatingRowBackground="#FF191919" RowBackground="#FF191919" IsManipulationEnabled="False" 
+                      IsReadOnly="True" CanUserDeleteRows="True" KeyUp="installedData_KeyUp" PreviewMouseRightButtonUp="installedData_PreviewMouseRightButtonUp">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="#FF303030" />
+                            <Setter Property="BorderThickness" Value="1,0,0,0"/>
+                            <Setter Property="BorderBrush" Value="#FF696969"/>
+                            <Setter Property="Margin" Value="-1,0,0,0"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <EventSetter Event="Control.PreviewMouseDoubleClick" Handler="DataGridRow_PreviewMouseDoubleClick"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="app_InstalledPath" Visibility="Hidden" Binding="{Binding installed_Path}" Width="2*"/>
+                        <DataGridTextColumn x:Name="app_InstalledApps" Header="  Installed Apps" Binding="{Binding installed_Name}" Width="3*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <Button Margin="0,45,0,0" x:Name="Refresh" Grid.Column="1" Click="Refresh_Click"
+                    Foreground="{x:Null}" FontFamily="Geometr212 BkCn BT" Width="16" Height="16" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5">
+                <Button.Background>
+                    <ImageBrush ImageSource="Immagini/refresh-icon.png" Stretch="Uniform">
+                        <ImageBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ImageBrush.RelativeTransform>
+                    </ImageBrush>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2">
+
+            
+            <DataGrid x:Name="appsData" RowHeaderWidth="0" Margin="0,45,0,0" BorderBrush="#FF303030" Width="auto"
+                      Background="#FF303030" Foreground="#FFBFBFBF" FontFamily="Arial" HorizontalGridLinesBrush="DimGray" 
+                      VerticalGridLinesBrush="DimGray" SelectionMode="Single" SelectionUnit="FullRow" 
+                      AlternatingRowBackground="#FF191919" RowBackground="#FF191919" AutoGenerateColumns="False"
+                      CanUserDeleteRows="True" MaxHeight="660" PreviewKeyDown="appsData_KeyUp" IsReadOnly="True" >
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#FF303030" />
+                        <Setter Property="BorderThickness" Value="1,0,0,0"/>
+                        <Setter Property="BorderBrush" Value="#FF696969"/>
+                        <Setter Property="Margin" Value="-1,0,0,0"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.ContextMenu>
+                    <ContextMenu Background="#FF303030" BorderBrush="#FF303030" >
+
+                        <MenuItem Header="Delete" x:Name="border" InputGestureText="Del" Background="#FF303030" Foreground="#FFBFBFBF" BorderBrush="DimGray"
+                                  BorderThickness="0,0,1,1" Click="border_Click" Icon=""/>
+                        <MenuItem Header="Test" Background="#FF303030" Foreground="#FFBFBFBF" BorderBrush="DimGray"
+                                  BorderThickness="0,0,1,1" Click="MenuItem_Click" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="Id_app"  Visibility="Hidden" Binding="{Binding Id}"/>
+                    <DataGridTextColumn x:Name="Path_app"  Visibility="Hidden" Binding="{Binding path}"/>
+                    <DataGridTextColumn Header="  Apps" Binding="{Binding name}" Width="2*"/>
+                    <DataGridTextColumn Header="  Hours" Width="*" Binding="{Binding time}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="3">
+            <TextBlock HorizontalAlignment="Right" Margin="0,15,5,0">
+                <Hyperlink NavigateUri="paypal.me/GabrieleLauricella"  RequestNavigate="Hyperlink_RequestNavigate" >
+                    <Run Text="Support Me..."/>
+                </Hyperlink>
+            </TextBlock>
+            <GroupBox  Margin="3,15,0,0" BorderBrush="#FF303030" Foreground="{x:Null}" Width="auto" MinHeight="160" MaxHeight="160">
+                <StackPanel Grid.Column="3" Height="153" VerticalAlignment="Top" >
+                    <Label Content="Process Name" HorizontalAlignment="Center" VerticalAlignment="Top"
+               Foreground="#FFBFBFBF" Grid.Column="3" Grid.Row="0" FontSize="10" FontFamily="Arial"  />
+                    <TextBox x:Name="Path" Margin="0,0,0,-10" Grid.Column="3" Width="auto" Height="20" 
+                 Background="#FF303030" BorderBrush="#FF303030" Foreground="#FFBFBFBF" Text="{Binding SelectedItem.path, ElementName=appsData, Mode=OneWay}"/>
+
+
+                    <Label Content="Name" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0 " 
+               Foreground="#FFBFBFBF" Grid.Column="3" Grid.Row="0" FontSize="10" FontFamily="Arial"  />
+                    <TextBox x:Name="Name" Margin="0,0,0,-10" Grid.Column="3" Width="auto" Height="20" 
+                 Background="#FF303030" BorderBrush="#FF303030" Foreground="#FFBFBFBF" Text="{Binding SelectedItem.name, ElementName=appsData, Mode=OneWay}"/>
+
+                    <Label Content="Time" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0 " 
+               Foreground="#FFBFBFBF" Grid.Column="3" Grid.Row="0" FontSize="10" FontFamily="Arial"  />
+                    <TextBox x:Name="Time" Grid.Column="3" Width="auto" Height="20" 
+                 Background="#FF303030" BorderBrush="#FF303030" Foreground="#FFBFBFBF" Text="{Binding SelectedItem.time, ElementName=appsData, Mode=OneWay}"/>
+
+                    <Button x:Name="Add_win1" Click="Add__Click" Height="20" Width="20" HorizontalAlignment="Right" Margin="-0,3,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="Immagini/add2.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="Delete_win1" Height="20" PreviewMouseLeftButtonUp="Delete__Click" Width="20" HorizontalAlignment="left" Margin="-0,-20,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="Immagini/add2.png">
+                                <ImageBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                        <RotateTransform Angle="45" CenterY="0.5" CenterX="0.5"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </ImageBrush.RelativeTransform>
+                            </ImageBrush>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        
+        <Grid Grid.Column="3">
+            <TextBlock HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom">
+                <Hyperlink NavigateUri="https://youtu.be/4qBouGMASxI"  RequestNavigate="Hyperlink_RequestNavigate1" >
+                    <Run Text="Need help?"/>
+                </Hyperlink>
+            </TextBlock>
+        </Grid>
+        
+
+
+    </Grid>
+</Window>

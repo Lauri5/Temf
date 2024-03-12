@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0108: Il membro nasconde il membro ereditato. Manca la parola chiave new
+dotnet_diagnostic.CS0108.severity = none
