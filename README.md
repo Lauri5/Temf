@@ -8,6 +8,7 @@
   A desktop apps time-tracking program.
 </p>
 <p align="center">
+  <a href="https://sourceforge.net/projects/temf" rel="nofollow"><img src="https://img.shields.io/badge/build-passing-green" alt="Build" style="max-width: 100%;"></a>
   <a href="https://sourceforge.net/projects/temf" rel="nofollow"><img src="https://img.shields.io/badge/release-1.0-blue" alt="Release" style="max-width: 100%;"></a>
   <a href="https://github.com/Lauri5/Temf/blob/master/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License" style="max-width: 100%;"></a>
 </p>
